@@ -3,13 +3,16 @@ Analytics Snippet (module for Omeka S)
 
 [Analytics Snippet] is a module for [Omeka S] that allows the global admin to
 add a snippet, generally a javascript tracker, at the end of the public pages
-and/or at the end of admin pages.
+and/or at the end of admin pages. It can track json and xml requests too via
+sub-modules.
 
 It’s primarly designed for open source analytics platforms, like [Piwik] or [Open Web Analytics],
 but it can be used with any other competitor services like [Woopra], [Google Analytics]
 or [Heap Analytics], if you don’t fear to give the life of your visitors for
 free (or by paying) to people who manipulate and sell them with a big profit.
 Any other javascript or html code can be added too.
+
+Sub-modules can be enabled too to track api json and xml calls, for example [Analytics Snippet Piwik].
 
 
 Installation
@@ -96,6 +99,7 @@ Copyright
 [Woopra]: https://www.woopra.com
 [Google Analytics]: https://www.google.com/analytics
 [Heap Analytics]: http://heapanalytics.com
+[Analytics Snippet Piwik]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippetPiwik
 [Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html

@@ -10,6 +10,10 @@ return [
     'analyticssnippet' => [
         'settings' => [
             'analyticssnippet_inline_public' => '',
+            'analyticssnippet_inline_admin' => '',
+        ],
+        'trackers' => [
+            'default' => Tracker\InlineScript::class,
         ],
     ],
 ];
