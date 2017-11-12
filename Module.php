@@ -13,7 +13,8 @@ use Zend\View\ViewEvent;
 /**
  * AnalyticsSnippet
  *
- * Add a snippet, generally a javascript tracker, at the end of the pages.
+ * Add a snippet, generally a javascript tracker, at the end of the public or
+ * admin pages.
  *
  * @copyright Daniel Berthereau, 2017
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
@@ -103,9 +104,26 @@ class Module extends AbstractModule
 
     public function appendAnalyticsSnippet(ViewEvent $viewEvent)
     {
-        $settings = $this->getServiceLocator()->get('Omeka\Settings');
-        $inlineScriptPublic = $settings->get('analyticssnippet_inline_public');
-        if (empty($inlineScriptPublic)) {
+        $services = $this->getServiceLocator();
+        $routeMatch = $services->get('Application')->getMvcEvent()->getRouteMatch();
+        if ($routeMatch->getParam('__SITE__')) {
+            $inlineScript = 'analyticssnippet_inline_public';
+        } elseif ($routeMatch->getParam('__ADMIN__')) {
+            $inlineScript = 'analyticssnippet_inline_admin';
+        } elseif ('Omeka\Controller\Api' === $services->get('ControllerPluginManager')->get('Params')->fromRoute('controller')) {
+            return;
+        }
+        // Manage bad routing of some modules.
+        else {
+            $basePath = $services->get('ViewHelperManager')->get('BasePath');
+            $inlineScript = strpos($_SERVER['REQUEST_URI'], $basePath() . '/admin') === 0
+                ? 'analyticssnippet_inline_admin'
+                : 'analyticssnippet_inline_public';
+        }
+
+        $settings = $services->get('Omeka\Settings');
+        $inlineScript = $settings->get($inlineScript);
+        if (empty($inlineScript)) {
             return;
         }
 
@@ -129,7 +147,7 @@ class Module extends AbstractModule
             return;
         }
 
-        $content = substr_replace($content, $inlineScriptPublic, $endTagBody, 0);
+        $content = substr_replace($content, $inlineScript, $endTagBody, 0);
         $response->setContent($content);
     }
 }

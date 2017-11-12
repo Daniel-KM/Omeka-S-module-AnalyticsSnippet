@@ -2,7 +2,8 @@ Analytics Snippet (module for Omeka S)
 ======================================
 
 [Analytics Snippet] is a module for [Omeka S] that allows the global admin to
-add a snippet, generally a javascript tracker, at the end of the pages.
+add a snippet, generally a javascript tracker, at the end of the public pages
+and/or at the end of admin pages.
 
 It’s primarly designed for open source analytics platforms, like [Piwik] or [Open Web Analytics],
 but it can be used with any other competitor services like [Woopra], [Google Analytics]

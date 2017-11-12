@@ -25,5 +25,21 @@ console.log("Analytics Snippet ready!");
 </script>',
             ],
         ]);
+
+        $this->add([
+            'name' => 'analyticssnippet_inline_admin',
+            'type' => Textarea::class,
+            'options' => [
+                'label' => 'Code to append to admin pages', // @translate
+                'info' => 'Don’t forget to add the tags <script> and </script> for javascript.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'analyticssnippet-inline-admin',
+                'rows' => 12,
+                'placeholder' => '<script>
+console.log("Analytics Snippet ready for admin!");
+</script>',
+            ],
+        ]);
     }
 }
