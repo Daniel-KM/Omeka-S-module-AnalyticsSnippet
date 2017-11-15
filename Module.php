@@ -7,6 +7,7 @@ use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 use Zend\Mvc\Controller\AbstractController;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\View\Model\JsonModel;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\View;
 use Zend\View\ViewEvent;
@@ -29,7 +30,11 @@ class Module extends AbstractModule
 
     public function install(ServiceLocatorInterface $serviceLocator)
     {
-        $settings = $serviceLocator->get('Omeka\Settings');
+        $this->installSettings($serviceLocator->get('Omeka\Settings'));
+    }
+
+    protected function installSettings($settings)
+    {
         $config = require __DIR__ . '/config/module.config.php';
         $defaultSettings = $config[strtolower(__NAMESPACE__)]['settings'];
         foreach ($defaultSettings as $name => $value) {
@@ -39,7 +44,11 @@ class Module extends AbstractModule
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
     {
-        $settings = $serviceLocator->get('Omeka\Settings');
+        $this->uninstallSettings($serviceLocator->get('Omeka\Settings'));
+    }
+
+    protected function uninstallSettings($settings)
+    {
         $config = require __DIR__ . '/config/module.config.php';
         $defaultSettings = $config[strtolower(__NAMESPACE__)]['settings'];
         foreach ($defaultSettings as $name => $value) {
@@ -106,7 +115,9 @@ class Module extends AbstractModule
     public function appendAnalyticsSnippet(ViewEvent $viewEvent)
     {
         $services = $this->getServiceLocator();
-        if ('Omeka\Controller\Api' === $services->get('ControllerPluginManager')->get('Params')->fromRoute('controller')) {
+
+        $model = $viewEvent->getParam('model');
+        if (is_object($model) && $model instanceof JsonModel) {
             $this->trackCall('json', $viewEvent);
             return;
         }
