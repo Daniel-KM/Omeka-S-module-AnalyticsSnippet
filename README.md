@@ -18,7 +18,7 @@ Sub-modules can be enabled too to track api json and xml calls, for example [Ana
 Installation
 ------------
 
-Uncompress files and rename module folder "AnalyticsSnippet". Then install it
+Uncompress files and rename module folder `AnalyticsSnippet`. Then install it
 like any other Omeka module and follow the config instructions.
 
 See general end user documentation for [Installing a module].
@@ -94,7 +94,7 @@ Copyright
 
 [Analytics Snippet]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
 [Omeka S]: https://omeka.org/s
-[Pïwik]: https://piwik.org
+[Piwik]: https://piwik.org
 [Open Web Analytics]: http://www.openwebanalytics.com
 [Woopra]: https://www.woopra.com
 [Google Analytics]: https://www.google.com/analytics
