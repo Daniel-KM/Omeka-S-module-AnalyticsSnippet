@@ -39,7 +39,10 @@ abstract class AbstractTracker implements TrackerInterface
     protected function trackInlineScript($url, $type, Event $event)
     {
         $routeMatch = $this->services->get('Application')->getMvcEvent()->getRouteMatch();
-        if ($routeMatch->getParam('__SITE__')) {
+        // Manage public error.
+        if (empty($routeMatch)) {
+            $inlineScript = 'analyticssnippet_inline_public';
+        } elseif ($routeMatch->getParam('__SITE__')) {
             $inlineScript = 'analyticssnippet_inline_public';
         } elseif ($routeMatch->getParam('__ADMIN__')) {
             $inlineScript = 'analyticssnippet_inline_admin';

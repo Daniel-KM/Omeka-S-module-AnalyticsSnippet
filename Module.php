@@ -114,6 +114,13 @@ class Module extends AbstractModule
 
     public function appendAnalyticsSnippet(ViewEvent $viewEvent)
     {
+        // In case of error or a internal redirection, there may be two calls.
+        static $processed;
+        if ($processed) {
+            return;
+        }
+        $processed = true;
+
         $services = $this->getServiceLocator();
 
         $model = $viewEvent->getParam('model');
