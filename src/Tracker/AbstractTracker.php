@@ -3,6 +3,7 @@ namespace AnalyticsSnippet\Tracker;
 
 use Omeka\Stdlib\Message;
 use Zend\EventManager\Event;
+use Zend\Http\PhpEnvironment\RemoteAddress;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 abstract class AbstractTracker implements TrackerInterface
@@ -89,7 +90,7 @@ abstract class AbstractTracker implements TrackerInterface
      *
      * @return string
      */
-    public function getUrlReferrer()
+    protected function getUrlReferrer()
     {
         return @$_SERVER['HTTP_REFERER'];
     }
@@ -99,28 +100,15 @@ abstract class AbstractTracker implements TrackerInterface
      *
      * @return string
      */
-    public function getClientIp()
+    protected function getClientIp()
     {
-        if (@$_SERVER['HTTP_CLIENT_IP']) {
-            return $_SERVER['HTTP_CLIENT_IP'];
+        $ip = (new RemoteAddress())->getIpAddress();
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
+            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)
+        ){
+            return $ip;
         }
-        if (@$_SERVER['HTTP_X_FORWARDED_FOR']) {
-            return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-        if (@$_SERVER['HTTP_X_FORWARDED']) {
-            return $_SERVER['HTTP_X_FORWARDED'];
-        }
-        if (@$_SERVER['HTTP_FORWARDED_FOR']) {
-            return $_SERVER['HTTP_FORWARDED_FOR'];
-        }
-        if (@$_SERVER['HTTP_FORWARDED']) {
-            return $_SERVER['HTTP_FORWARDED'];
-        }
-        if (@$_SERVER['REMOTE_ADDR']) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-
-        return '0.0.0.0';
+        return '::';
     }
 
     /**
@@ -128,7 +116,7 @@ abstract class AbstractTracker implements TrackerInterface
      *
      * @return string
      */
-    public function getUserAgent()
+    protected function getUserAgent()
     {
         return @$_SERVER['USER_AGENT'];
     }
@@ -138,7 +126,7 @@ abstract class AbstractTracker implements TrackerInterface
      *
      * @return int
      */
-    public function getUserId()
+    protected function getUserId()
     {
         $services = $this->getServiceLocator();
         $identity = $services->get('ViewHelperManager')->get('Identity');
