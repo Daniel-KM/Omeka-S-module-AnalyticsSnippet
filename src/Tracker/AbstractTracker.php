@@ -118,7 +118,7 @@ abstract class AbstractTracker implements TrackerInterface
      */
     protected function getUserAgent()
     {
-        return @$_SERVER['USER_AGENT'];
+        return @$_SERVER['HTTP_USER_AGENT'];
     }
 
     /**
