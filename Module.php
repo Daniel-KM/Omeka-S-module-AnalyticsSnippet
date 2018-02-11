@@ -18,7 +18,7 @@ use Zend\View\ViewEvent;
  * Add a snippet, generally a javascript tracker, at the end of the public or
  * admin pages, and allows to track json and xml requests.
  *
- * @copyright Daniel Berthereau, 2017
+ * @copyright Daniel Berthereau, 2017-2018
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
@@ -38,7 +38,7 @@ class Module extends AbstractModule
         $this->manageSettings($serviceLocator->get('Omeka\Settings'), 'uninstall');
     }
 
-    protected function manageSettings($settings, $process, $key = 'settings')
+    protected function manageSettings($settings, $process, $key = 'config')
     {
         $config = require __DIR__ . '/config/module.config.php';
         $defaultSettings = $config[strtolower(__NAMESPACE__)][$key];
@@ -73,7 +73,7 @@ class Module extends AbstractModule
         $formElementManager = $services->get('FormElementManager');
 
         $data = [];
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['settings'];
+        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
         foreach ($defaultSettings as $name => $value) {
             $data[$name] = $settings->get($name);
         }
@@ -102,7 +102,7 @@ class Module extends AbstractModule
             return false;
         }
 
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['settings'];
+        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
         foreach ($params as $name => $value) {
             if (isset($defaultSettings[$name])) {
                 $settings->set($name, $value);

@@ -8,7 +8,7 @@ return [
         ],
     ],
     'analyticssnippet' => [
-        'settings' => [
+        'config' => [
             'analyticssnippet_inline_public' => '',
             'analyticssnippet_inline_admin' => '',
         ],
