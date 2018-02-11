@@ -80,7 +80,7 @@ abstract class AbstractTracker implements TrackerInterface
 
     protected function trackError($url, $type, Event $event)
     {
-        $logger = $this->services->get('Omeka\logger');
+        $logger = $this->services->get('Omeka\Logger');
         $logger->err(new Message('Error in content "%s" from url %s (referrer: %s; user agent: %s; user #%d; ip %s).', // @translate
             $type, $url, $this->getUrlReferrer(), $this->getUserAgent(), $this->getUserId(), $this->getClientIp()));
     }
