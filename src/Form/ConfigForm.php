@@ -8,8 +8,6 @@ class ConfigForm extends Form
 {
     public function init()
     {
-        $this->setAttribute('id', 'config-form');
-
         $this->add([
             'name' => 'analyticssnippet_inline_public',
             'type' => Textarea::class,
