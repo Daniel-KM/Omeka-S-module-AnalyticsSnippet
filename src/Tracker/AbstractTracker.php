@@ -105,7 +105,7 @@ abstract class AbstractTracker implements TrackerInterface
         $ip = (new RemoteAddress())->getIpAddress();
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
             || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)
-        ){
+        ) {
             return $ip;
         }
         return '::';
