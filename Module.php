@@ -56,8 +56,6 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
-        $services = $this->getServiceLocator();
-
         $sharedEventManager->attach(
             View::class,
             ViewEvent::EVENT_RESPONSE,
@@ -75,7 +73,7 @@ class Module extends AbstractModule
         $data = [];
         $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
         foreach ($defaultSettings as $name => $value) {
-            $data[$name] = $settings->get($name);
+            $data[$name] = $settings->get($name, $value);
         }
 
         $form->init();
@@ -87,12 +85,11 @@ class Module extends AbstractModule
     public function handleConfigForm(AbstractController $controller)
     {
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
         $settings = $services->get('Omeka\Settings');
+        $form = $services->get('FormElementManager')->get(ConfigForm::class);
 
         $params = $controller->getRequest()->getPost();
 
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
         $form->init();
         $form->setData($params);
         if (!$form->isValid()) {
@@ -100,11 +97,9 @@ class Module extends AbstractModule
             return false;
         }
 
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
+        $params = $form->getData();
         foreach ($params as $name => $value) {
-            if (array_key_exists($name, $defaultSettings)) {
-                $settings->set($name, $value);
-            }
+            $settings->set($name, $value);
         }
     }
 
@@ -116,8 +111,6 @@ class Module extends AbstractModule
             return;
         }
         $processed = true;
-
-        $services = $this->getServiceLocator();
 
         $model = $viewEvent->getParam('model');
         if (is_object($model) && $model instanceof JsonModel) {
@@ -140,7 +133,7 @@ class Module extends AbstractModule
             $this->trackCall('html', $viewEvent);
         } elseif (strpos($startContent, '<?xml ') !== 0) {
             $this->trackCall('xml', $viewEvent);
-        } elseif (json_decode($params['content']) !== null) {
+        } elseif (json_decode($content) !== null) {
             $this->trackCall('json', $viewEvent);
         } else {
             $this->trackCall('undefined', $viewEvent);
