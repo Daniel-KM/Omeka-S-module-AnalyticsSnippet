@@ -85,6 +85,7 @@ class Module extends AbstractModule
     public function handleConfigForm(AbstractController $controller)
     {
         $services = $this->getServiceLocator();
+        $config = $services->get('Config');
         $settings = $services->get('Omeka\Settings');
         $form = $services->get('FormElementManager')->get(ConfigForm::class);
 
@@ -98,6 +99,8 @@ class Module extends AbstractModule
         }
 
         $params = $form->getData();
+        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
+        $params = array_intersect_key($params, $defaultSettings);
         foreach ($params as $name => $value) {
             $settings->set($name, $value);
         }
