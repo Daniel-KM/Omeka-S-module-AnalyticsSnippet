@@ -89,7 +89,7 @@ Current maintainers:
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017
+* Copyright Daniel Berthereau, 2017-2019
 
 
 [Analytics Snippet]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
