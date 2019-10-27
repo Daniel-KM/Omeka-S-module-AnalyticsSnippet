@@ -1,14 +1,16 @@
 <?php
 namespace AnalyticsSnippet;
 
-use AnalyticsSnippet\Form\ConfigForm;
-use Omeka\Module\AbstractModule;
+if (!class_exists(\Generic\AbstractModule::class)) {
+    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
+        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
+        : __DIR__ . '/src/Generic/AbstractModule.php';
+}
+
+use Generic\AbstractModule;
 use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
-use Zend\Mvc\Controller\AbstractController;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\JsonModel;
-use Zend\View\Renderer\PhpRenderer;
 use Zend\View\View;
 use Zend\View\ViewEvent;
 
@@ -18,41 +20,12 @@ use Zend\View\ViewEvent;
  * Add a snippet, generally a javascript tracker, at the end of the public or
  * admin pages, and allows to track json and xml requests.
  *
- * @copyright Daniel Berthereau, 2017-2018
+ * @copyright Daniel Berthereau, 2017-2019
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
 {
-    public function getConfig()
-    {
-        return require __DIR__ . '/config/module.config.php';
-    }
-
-    public function install(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->manageSettings($serviceLocator->get('Omeka\Settings'), 'install');
-    }
-
-    public function uninstall(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->manageSettings($serviceLocator->get('Omeka\Settings'), 'uninstall');
-    }
-
-    protected function manageSettings($settings, $process, $key = 'config')
-    {
-        $config = require __DIR__ . '/config/module.config.php';
-        $defaultSettings = $config[strtolower(__NAMESPACE__)][$key];
-        foreach ($defaultSettings as $name => $value) {
-            switch ($process) {
-                case 'install':
-                    $settings->set($name, $value);
-                    break;
-                case 'uninstall':
-                    $settings->delete($name);
-                    break;
-            }
-        }
-    }
+    const NAMESPACE = __NAMESPACE__;
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
@@ -61,49 +34,6 @@ class Module extends AbstractModule
             ViewEvent::EVENT_RESPONSE,
             [$this, 'appendAnalyticsSnippet']
         );
-    }
-
-    public function getConfigForm(PhpRenderer $renderer)
-    {
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings');
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
-
-        $data = [];
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
-        foreach ($defaultSettings as $name => $value) {
-            $data[$name] = $settings->get($name, $value);
-        }
-
-        $form->init();
-        $form->setData($data);
-        $html = $renderer->formCollection($form);
-        return $html;
-    }
-
-    public function handleConfigForm(AbstractController $controller)
-    {
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        $settings = $services->get('Omeka\Settings');
-        $form = $services->get('FormElementManager')->get(ConfigForm::class);
-
-        $params = $controller->getRequest()->getPost();
-
-        $form->init();
-        $form->setData($params);
-        if (!$form->isValid()) {
-            $controller->messenger()->addErrors($form->getMessages());
-            return false;
-        }
-
-        $params = $form->getData();
-        $defaultSettings = $config[strtolower(__NAMESPACE__)]['config'];
-        $params = array_intersect_key($params, $defaultSettings);
-        foreach ($params as $name => $value) {
-            $settings->set($name, $value);
-        }
     }
 
     public function appendAnalyticsSnippet(ViewEvent $viewEvent)
