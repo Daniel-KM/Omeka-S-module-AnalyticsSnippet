@@ -34,6 +34,11 @@ class Module extends AbstractModule
             ViewEvent::EVENT_RESPONSE,
             [$this, 'appendAnalyticsSnippet']
         );
+        $sharedEventManager->attach(
+            \Omeka\Form\SettingForm::class,
+            'form.add_elements',
+            [$this, 'handleMainSettings']
+        );
     }
 
     public function appendAnalyticsSnippet(ViewEvent $viewEvent)

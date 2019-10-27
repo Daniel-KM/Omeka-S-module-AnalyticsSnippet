@@ -4,11 +4,11 @@ namespace AnalyticsSnippet;
 return [
     'form_elements' => [
         'invokables' => [
-            Form\ConfigForm::class => Form\ConfigForm::class,
+            Form\SettingsFieldset::class => Form\SettingsFieldset::class,
         ],
     ],
     'analyticssnippet' => [
-        'config' => [
+        'settings' => [
             'analyticssnippet_inline_public' => '',
             'analyticssnippet_inline_admin' => '',
         ],
