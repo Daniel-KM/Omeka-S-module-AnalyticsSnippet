@@ -1,7 +1,7 @@
 <?php
 namespace AnalyticsSnippet\Tracker;
 
-use Zend\EventManager\Event;
+use Laminas\EventManager\Event;
 
 class InlineScript extends AbstractTracker
 {

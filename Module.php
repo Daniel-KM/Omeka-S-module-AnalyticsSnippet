@@ -8,11 +8,11 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
-use Zend\EventManager\Event;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\View\Model\JsonModel;
-use Zend\View\View;
-use Zend\View\ViewEvent;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\View\Model\JsonModel;
+use Laminas\View\View;
+use Laminas\View\ViewEvent;
 
 /**
  * AnalyticsSnippet

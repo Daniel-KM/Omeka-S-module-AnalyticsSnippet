@@ -2,9 +2,9 @@
 namespace AnalyticsSnippet\Tracker;
 
 use Omeka\Stdlib\Message;
-use Zend\EventManager\Event;
-use Zend\Http\PhpEnvironment\RemoteAddress;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\Event;
+use Laminas\Http\PhpEnvironment\RemoteAddress;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 abstract class AbstractTracker implements TrackerInterface
 {
