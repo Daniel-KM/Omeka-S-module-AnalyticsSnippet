@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace AnalyticsSnippet\Form;
 
 use Laminas\Form\Element;
@@ -8,7 +8,7 @@ class SettingsFieldset extends Fieldset
 {
     protected $label = 'Analytics Snippet'; // @translate
 
-    public function init()
+    public function init(): void
     {
         $this
             ->add([

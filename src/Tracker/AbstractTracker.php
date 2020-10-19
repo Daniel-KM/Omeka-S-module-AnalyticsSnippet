@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 namespace AnalyticsSnippet\Tracker;
 
-use Omeka\Stdlib\Message;
 use Laminas\EventManager\Event;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Stdlib\Message;
 
 abstract class AbstractTracker implements TrackerInterface
 {
@@ -13,7 +13,7 @@ abstract class AbstractTracker implements TrackerInterface
      */
     protected $services;
 
-    public function setServiceLocator(ServiceLocatorInterface $services)
+    public function setServiceLocator(ServiceLocatorInterface $services): void
     {
         $this->services = $services;
     }
@@ -28,7 +28,7 @@ abstract class AbstractTracker implements TrackerInterface
         return $this->services;
     }
 
-    public function track($url, $type, Event $event)
+    public function track($url, $type, Event $event): void
     {
         if ($type === 'html') {
             $this->trackInlineScript($url, $type, $event);
@@ -37,7 +37,7 @@ abstract class AbstractTracker implements TrackerInterface
         }
     }
 
-    protected function trackInlineScript($url, $type, Event $event)
+    protected function trackInlineScript($url, $type, Event $event): void
     {
         $routeMatch = $this->services->get('Application')->getMvcEvent()->getRouteMatch();
         // Manage public error.
@@ -74,11 +74,11 @@ abstract class AbstractTracker implements TrackerInterface
         $response->setContent($content);
     }
 
-    protected function trackNotInlineScript($url, $type, Event $event)
+    protected function trackNotInlineScript($url, $type, Event $event): void
     {
     }
 
-    protected function trackError($url, $type, Event $event)
+    protected function trackError($url, $type, Event $event): void
     {
         $logger = $this->services->get('Omeka\Logger');
         $logger->err(new Message('Error in content "%s" from url %s (referrer: %s; user agent: %s; user #%d; ip %s).', // @translate

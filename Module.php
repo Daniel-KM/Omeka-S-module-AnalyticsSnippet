@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace AnalyticsSnippet;
 
 if (!class_exists(\Generic\AbstractModule::class)) {
@@ -27,7 +27,7 @@ class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
 
-    public function attachListeners(SharedEventManagerInterface $sharedEventManager)
+    public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         $sharedEventManager->attach(
             View::class,
@@ -41,7 +41,7 @@ class Module extends AbstractModule
         );
     }
 
-    public function appendAnalyticsSnippet(ViewEvent $viewEvent)
+    public function appendAnalyticsSnippet(ViewEvent $viewEvent): void
     {
         // In case of error or a internal redirection, there may be two calls.
         static $processed;
@@ -84,7 +84,7 @@ class Module extends AbstractModule
      * @param string $type "html", "json", "xml", "undefined", or "error".
      * @param Event $event
      */
-    protected function trackCall($type, Event $event)
+    protected function trackCall($type, Event $event): void
     {
         $services = $this->getServiceLocator();
         $serverUrl = $services->get('ViewHelperManager')->get('ServerUrl');
