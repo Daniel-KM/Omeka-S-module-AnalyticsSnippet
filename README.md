@@ -1,6 +1,9 @@
 Analytics Snippet (module for Omeka S)
 ======================================
 
+> __New versions of this module and support for Omeka S version 3.0 and above
+> are available on [GitLab], which seems to respect users and privacy better.__
+
 [Analytics Snippet] is a module for [Omeka S] that allows the global admin to
 add a snippet, generally a javascript tracker, at the end of the public pages
 and/or at the end of admin pages. It can track json and xml requests too via
@@ -106,4 +109,5 @@ Copyright
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
+[GitLab]: https://gitlab.com/Daniel-KM
 [Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
