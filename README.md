@@ -48,13 +48,13 @@ your archives regularly so you can roll back if needed.
 Troubleshooting
 ---------------
 
-See online issues on the [module issues] page on GitHub.
+See online issues on the [module issues] page on GitLab.
 
 
 License
 -------
 
-This module is published under the [CeCILL v2.1] licence, compatible with
+This module is published under the [CeCILL v2.1] license, compatible with
 [GNU/GPL] and approved by [FSF] and [OSI].
 
 This software is governed by the CeCILL license under French law and abiding by
@@ -86,7 +86,7 @@ Contact
 
 Current maintainers:
 
-* Daniel Berthereau (see [Daniel-KM] on GitHub)
+* Daniel Berthereau (see [Daniel-KM] on GitLab)
 
 
 Copyright
@@ -95,19 +95,19 @@ Copyright
 * Copyright Daniel Berthereau, 2017-2019
 
 
-[Analytics Snippet]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
+[Analytics Snippet]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
 [Omeka S]: https://omeka.org/s
 [Piwik]: https://piwik.org
 [Open Web Analytics]: http://www.openwebanalytics.com
 [Woopra]: https://www.woopra.com
 [Google Analytics]: https://www.google.com/analytics
 [Heap Analytics]: http://heapanalytics.com
-[Analytics Snippet Piwik]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippetPiwik
+[Analytics Snippet Piwik]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippetPiwik
 [Installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
-[module issues]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet/issues
+[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [GitLab]: https://gitlab.com/Daniel-KM
-[Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
+[Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"

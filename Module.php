@@ -20,7 +20,7 @@ use Laminas\View\ViewEvent;
  * Add a snippet, generally a javascript tracker, at the end of the public or
  * admin pages, and allows to track json and xml requests.
  *
- * @copyright Daniel Berthereau, 2017-2019
+ * @copyright Daniel Berthereau, 2017-2020
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
