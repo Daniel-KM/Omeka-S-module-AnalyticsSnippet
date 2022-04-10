@@ -4,7 +4,7 @@ namespace AnalyticsSnippet\Form;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
-class SettingsFieldset extends Fieldset
+class SiteSettingsFieldset extends Fieldset
 {
     protected $label = 'Analytics Snippet'; // @translate
 
@@ -12,17 +12,17 @@ class SettingsFieldset extends Fieldset
     {
         $this
             ->add([
-                'name' => 'analyticssnippet_inline_admin',
+                'name' => 'analyticssnippet_inline_public',
                 'type' => Element\Textarea::class,
                 'options' => [
-                    'label' => 'Code to append to admin pages', // @translate
+                    'label' => 'Code to append to public pages', // @translate
                     'info' => 'Don’t forget to add the tags <script> and </script> for javascript.', // @translate
                 ],
                 'attributes' => [
-                    'id' => 'analyticssnippet-inline-admin',
+                    'id' => 'analyticssnippet-inline-public',
                     'rows' => 5,
                     'placeholder' => '<script>
-console.log("Analytics Snippet ready for admin!");
+console.log("Analytics Snippet ready!");
 </script>',
                 ],
             ])
