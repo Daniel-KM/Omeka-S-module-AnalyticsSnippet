@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace AnalyticsSnippet\Tracker;
 
 use Laminas\EventManager\Event;
@@ -64,13 +65,15 @@ abstract class AbstractTracker implements TrackerInterface
 
         $response = $event->getResponse();
         $content = $response->getContent();
-        $endTagBody = strripos((string) $content, '</body>', -7);
-        if (empty($endTagBody)) {
+        $endTag = $settings->get('analyticssnippet_position') === 'body_end'
+            ? strripos((string) $content, '</body>', -7)
+            : stripos((string) $content, '</head>');
+        if (empty($endTag)) {
             $this->trackError($url, $type, $event);
             return;
         }
 
-        $content = substr_replace($content, $inlineScript, $endTagBody, 0);
+        $content = substr_replace($content, $inlineScript, $endTag, 0);
         $response->setContent($content);
     }
 

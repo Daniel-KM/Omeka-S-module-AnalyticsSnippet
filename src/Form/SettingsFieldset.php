@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
+
 namespace AnalyticsSnippet\Form;
 
+use AnalyticsSnippet\Form\Element as AnalyticsSnippetElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -39,6 +41,23 @@ console.log("Analytics Snippet ready!");
                     'placeholder' => '<script>
 console.log("Analytics Snippet ready for admin!");
 </script>',
+                ],
+            ])
+            ->add([
+                'name' => 'analyticssnippet_position',
+                'type' => AnalyticsSnippetElement\OptionalRadio::class,
+                'options' => [
+                    'label' => 'Position', // @translate
+                    'value_options' => [
+                        // Position is "body_end" or "head_end" (recommended).
+
+                        'head_end' => 'Before "</head>" (recommended)', // @translate
+                        'body_end' => 'Before "</body>"', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'analyticssnippet_position',
+                    'value' => 'head_end',
                 ],
             ])
         ;
