@@ -28,6 +28,22 @@ class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
 
+    public function postInstall()
+    {
+        $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
+        $message = new \Omeka\Stdlib\Message(
+            'Fill the snippet in the main settings.' // @translate
+        );
+        $messenger->addNotice($message);
+        $message = new \Omeka\Stdlib\Message(
+            'To get statistics about keywords used by visitors in search engines, see %1$sMatomo/Piwik help%2$s.', // @translate
+            '<a href="https://matomo.org/faq/reports/analyse-search-keywords-reports/" target="_blank">',
+            '</a>'
+        );
+        $message->setEscapeHtml(false);
+        $messenger->addNotice($message);
+    }
+
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
         $sharedEventManager->attach(
