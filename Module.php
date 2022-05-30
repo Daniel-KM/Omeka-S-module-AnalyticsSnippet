@@ -28,7 +28,7 @@ class Module extends AbstractModule
 {
     const NAMESPACE = __NAMESPACE__;
 
-    public function postInstall()
+    public function postInstall(): void
     {
         $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
         $message = new \Omeka\Stdlib\Message(
