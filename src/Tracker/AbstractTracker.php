@@ -61,7 +61,7 @@ abstract class AbstractTracker implements TrackerInterface
         } else {
             // Check if the main public setting is used or overridden.
             // The main public setting is overridable only when there is a site.
-            $siteSlug = $routeMatch->getParam('site-slug');
+            $siteSlug = $routeMatch ? $routeMatch->getParam('site-slug') : null;
             if ($siteSlug) {
                 try {
                     $this->services->get('Omeka\ApiManager')->read('sites', ['slug' => $siteSlug]);
