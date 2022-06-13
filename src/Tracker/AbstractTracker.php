@@ -5,6 +5,7 @@ namespace AnalyticsSnippet\Tracker;
 use Laminas\EventManager\Event;
 use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use Omeka\Api\Exception\NotFoundException;
 use Omeka\Stdlib\Message;
 
 abstract class AbstractTracker implements TrackerInterface
@@ -43,7 +44,7 @@ abstract class AbstractTracker implements TrackerInterface
         $routeMatch = $this->services->get('Application')->getMvcEvent()->getRouteMatch();
         // Manage public error.
         if (empty($routeMatch)) {
-            $inlineScript = 'analyticssnippet_inline_public';
+            return;
         } elseif ($routeMatch->getParam('__SITE__')) {
             $inlineScript = 'analyticssnippet_inline_public';
         } elseif ($routeMatch->getParam('__ADMIN__')) {
@@ -57,14 +58,32 @@ abstract class AbstractTracker implements TrackerInterface
                 : 'analyticssnippet_inline_public';
         }
 
-        $settings = $this->services->get('Omeka\Settings');
-        $inlineScript = $settings->get($inlineScript);
+        if ($inlineScript == 'analyticssnippet_inline_public') {
+            // Disable on login page.
+            $siteSlug = $routeMatch->getParam('site-slug');
+            if (empty($siteSlug)) {
+                return;
+            }
+            
+            // Disable on site not found error.
+            try {
+                $this->services->get('Omeka\ApiManager')->read('sites', ['slug' => $siteSlug]);
+            } catch (NotFoundException $e) {
+                return;
+            }
+        }
+        
+        $inlineScript = ($inlineScript == 'analyticssnippet_inline_admin')
+            ? $this->services->get('Omeka\Settings')->get($inlineScript, null)
+            : $this->services->get('Omeka\Settings\Site')->get($inlineScript, null);
+        
         if (empty($inlineScript)) {
             return;
         }
 
         $response = $event->getResponse();
         $content = $response->getContent();
+        $settings = $this->services->get('Omeka\Settings');
         $endTag = $settings->get('analyticssnippet_position') === 'body_end'
             ? strripos((string) $content, '</body>', -7)
             : stripos((string) $content, '</head>');
