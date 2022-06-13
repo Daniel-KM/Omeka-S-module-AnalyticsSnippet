@@ -41,50 +41,58 @@ abstract class AbstractTracker implements TrackerInterface
 
     protected function trackInlineScript($url, $type, Event $event): void
     {
+        $settings = $this->services->get('Omeka\Settings');
+
         $routeMatch = $this->services->get('Application')->getMvcEvent()->getRouteMatch();
-        // Manage public error.
-        if (empty($routeMatch)) {
-            return;
-        } elseif ($routeMatch->getParam('__SITE__')) {
-            $inlineScript = 'analyticssnippet_inline_public';
-        } elseif ($routeMatch->getParam('__ADMIN__')) {
-            $inlineScript = 'analyticssnippet_inline_admin';
-        }
-        // Manage bad routing of some modules.
-        else {
-            $basePath = $this->services->get('ViewHelperManager')->get('BasePath');
-            $inlineScript = strpos($_SERVER['REQUEST_URI'], $basePath() . '/admin') === 0
-                ? 'analyticssnippet_inline_admin'
-                : 'analyticssnippet_inline_public';
+        if (!$routeMatch || $routeMatch->getParam('__SITE__')) {
+            $isAdmin = false;
+        } else {
+            $isAdmin = $routeMatch->getParam('__ADMIN__')
+                // Manage bad routing of some modules.
+                || (strpos($_SERVER['REQUEST_URI'], $this->services->get('ViewHelperManager')->get('BasePath')() . '/admin') === 0);
         }
 
-        if ($inlineScript == 'analyticssnippet_inline_public') {
-            // Disable on login page.
-            $siteSlug = $routeMatch->getParam('site-slug');
-            if (empty($siteSlug)) {
+        if ($isAdmin) {
+            $inlineScript = $settings->get('analyticssnippet_inline_admin', null);
+            if (!$inlineScript) {
                 return;
             }
-            
-            // Disable on site not found error.
-            try {
-                $this->services->get('Omeka\ApiManager')->read('sites', ['slug' => $siteSlug]);
-            } catch (NotFoundException $e) {
-                return;
+            $position = $settings->get('analyticssnippet_position', 'head_end');
+        } else {
+            // Check if the main public setting is used or overridden.
+            // The main public setting is overridable only when there is a site.
+            $siteSlug = $routeMatch->getParam('site-slug');
+            if ($siteSlug) {
+                try {
+                    $this->services->get('Omeka\ApiManager')->read('sites', ['slug' => $siteSlug]);
+                    $hasSite = true;
+                } catch (NotFoundException $e) {
+                    $hasSite = false;
+                }
+            } else {
+                $hasSite = false;
+            }
+            if ($hasSite) {
+                $siteSettings = $this->services->get('Omeka\Settings\Site');
+                $inlineScript = $siteSettings->get('analyticssnippet_inline_public', null);
+                $position = $siteSettings->get('analyticssnippet_position', 'head_end');
+            }
+            if (empty($inlineScript)) {
+                $inlineScript = $settings->get('analyticssnippet_inline_public', null);
+                if (!$inlineScript) {
+                    return;
+                }
+                $position = $settings->get('analyticssnippet_position', 'head_end');
             }
         }
-        
-        $inlineScript = ($inlineScript == 'analyticssnippet_inline_admin')
-            ? $this->services->get('Omeka\Settings')->get($inlineScript, null)
-            : $this->services->get('Omeka\Settings\Site')->get($inlineScript, null);
-        
+
         if (empty($inlineScript)) {
             return;
         }
 
         $response = $event->getResponse();
         $content = $response->getContent();
-        $settings = $this->services->get('Omeka\Settings');
-        $endTag = $settings->get('analyticssnippet_position') === 'body_end'
+        $endTag = $position === 'body_end'
             ? strripos((string) $content, '</body>', -7)
             : stripos((string) $content, '</head>');
         if (empty($endTag)) {

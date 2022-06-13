@@ -14,6 +14,21 @@ class SettingsFieldset extends Fieldset
     {
         $this
             ->add([
+                'name' => 'analyticssnippet_inline_public',
+                'type' => Element\Textarea::class,
+                'options' => [
+                    'label' => 'Code to append to all public pages (overridable in site settings)', // @translate
+                    'info' => 'Don’t forget to add the tags <script> and </script> for javascript.', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'analyticssnippet-inline-public',
+                    'rows' => 5,
+                    'placeholder' => '<script>
+console.log("Analytics Snippet ready!");
+</script>',
+                ],
+            ])
+            ->add([
                 'name' => 'analyticssnippet_inline_admin',
                 'type' => Element\Textarea::class,
                 'options' => [
@@ -34,8 +49,6 @@ console.log("Analytics Snippet ready for admin!");
                 'options' => [
                     'label' => 'Position', // @translate
                     'value_options' => [
-                        // Position is "body_end" or "head_end" (recommended).
-
                         'head_end' => 'Before "</head>" (recommended)', // @translate
                         'body_end' => 'Before "</body>"', // @translate
                     ],

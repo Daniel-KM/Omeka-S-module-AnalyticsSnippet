@@ -12,12 +12,14 @@ return [
     ],
     'analyticssnippet' => [
         'settings' => [
+            'analyticssnippet_inline_public' => '',
             'analyticssnippet_inline_admin' => '',
             // Position is "body_end" or "head_end" (recommended).
             'analyticssnippet_position' => 'head_end',
         ],
         'site_settings' => [
             'analyticssnippet_inline_public' => '',
+            'analyticssnippet_position' => 'head_end',
         ],
         'trackers' => [
             'default' => Tracker\InlineScript::class,

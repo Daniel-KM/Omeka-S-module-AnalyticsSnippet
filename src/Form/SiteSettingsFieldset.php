@@ -2,6 +2,7 @@
 
 namespace AnalyticsSnippet\Form;
 
+use AnalyticsSnippet\Form\Element as AnalyticsSnippetElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -25,6 +26,21 @@ class SiteSettingsFieldset extends Fieldset
                     'placeholder' => '<script>
 console.log("Analytics Snippet ready!");
 </script>',
+                ],
+            ])
+            ->add([
+                'name' => 'analyticssnippet_position',
+                'type' => AnalyticsSnippetElement\OptionalRadio::class,
+                'options' => [
+                    'label' => 'Position', // @translate
+                    'value_options' => [
+                        'head_end' => 'Before "</head>" (recommended)', // @translate
+                        'body_end' => 'Before "</body>"', // @translate
+                    ],
+                ],
+                'attributes' => [
+                    'id' => 'analyticssnippet_position',
+                    'value' => 'head_end',
                 ],
             ])
         ;
