@@ -2,7 +2,6 @@
 
 namespace AnalyticsSnippet;
 
-use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
 
 /**
@@ -16,16 +15,18 @@ use Omeka\Stdlib\Message;
  * @var \Omeka\Api\Manager $api
  * @var array $config
  * @var \Omeka\Settings\Settings $settings
+ * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
+$plugins = $services->get('ControllerPluginManager');
 // $entityManager = $services->get('Omeka\EntityManager');
 // $connection = $services->get('Omeka\Connection');
 // $api = $services->get('Omeka\ApiManager');
 // $config = require dirname(__DIR__, 2) . '/config/module.config.php';
 $settings = $services->get('Omeka\Settings');
+$messenger = $plugins->get('messenger');
 
 if (version_compare($oldVersion, '3.3.3.2', '<')) {
     $settings->set('analyticssnippet_position', 'body_end');
-    $messenger = new Messenger();
     $message = new Message(
         'A new option allows to append the snippet to head or to body.' // @translate
     );

@@ -21,7 +21,7 @@ use Laminas\View\ViewEvent;
  * Add a snippet, generally a javascript tracker, in public or admin pages, and
  * allows to track json and xml requests.
  *
- * @copyright Daniel Berthereau, 2017-2022
+ * @copyright Daniel Berthereau, 2017-2023
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
@@ -30,7 +30,7 @@ class Module extends AbstractModule
 
     public function postInstall(): void
     {
-        $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
+        $messenger = $this->getServiceLocator()->get('ControllerPluginManager')->get('messenger');
         $message = new \Omeka\Stdlib\Message(
             'Fill the snippet in the main settings.' // @translate
         );
