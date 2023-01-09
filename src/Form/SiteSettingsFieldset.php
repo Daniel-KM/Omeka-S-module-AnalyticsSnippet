@@ -13,6 +13,7 @@ class SiteSettingsFieldset extends Fieldset
     public function init(): void
     {
         $this
+            ->setAttribute('id', 'analytics-snippet')
             ->add([
                 'name' => 'analyticssnippet_inline_public',
                 'type' => Element\Textarea::class,
