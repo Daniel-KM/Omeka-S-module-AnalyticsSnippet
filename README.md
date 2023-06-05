@@ -93,7 +93,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2022 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2017-2023 (see [Daniel-KM] on GitLab)
 
 
 [Analytics Snippet]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
