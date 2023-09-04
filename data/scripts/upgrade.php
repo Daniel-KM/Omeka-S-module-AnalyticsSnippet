@@ -33,7 +33,7 @@ if (version_compare($oldVersion, '3.3.3.2', '<')) {
     $messenger->addNotice($message);
     $message = new Message(
         'To get statistics about keywords used by visitors in search engines, see %1$sMatomo/Piwik help%2$s.', // @translate
-        '<a href="https://matomo.org/faq/reports/analyse-search-keywords-reports/" target="_blank">',
+        '<a href="https://matomo.org/faq/reports/analyse-search-keywords-reports/" target="_blank" rel="noopener">',
         '</a>'
     );
     $message->setEscapeHtml(false);
