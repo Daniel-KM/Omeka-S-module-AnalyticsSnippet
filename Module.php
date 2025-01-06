@@ -2,18 +2,18 @@
 
 namespace AnalyticsSnippet;
 
-if (!class_exists(\Generic\AbstractModule::class)) {
-    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
-        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
-        : __DIR__ . '/src/Generic/AbstractModule.php';
+if (!class_exists(\Common\TraitModule::class)) {
+    require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-use Generic\AbstractModule;
+use Common\Stdlib\PsrMessage;
+use Common\TraitModule;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\View;
 use Laminas\View\ViewEvent;
+use Omeka\Module\AbstractModule;
 
 /**
  * AnalyticsSnippet
@@ -21,24 +21,43 @@ use Laminas\View\ViewEvent;
  * Add a snippet, generally a javascript tracker, in public or admin pages, and
  * allows to track json and xml requests.
  *
- * @copyright Daniel Berthereau, 2017-2023
+ * @copyright Daniel Berthereau, 2017-2025
  * @license http://www.cecill.info/licences/Licence_CeCILL_V2.1-en.txt
  */
 class Module extends AbstractModule
 {
+    use TraitModule;
+
     const NAMESPACE = __NAMESPACE__;
+
+    protected function preInstall(): void
+    {
+        $services = $this->getServiceLocator();
+        $plugins = $services->get('ControllerPluginManager');
+        $translate = $plugins->get('translate');
+
+        if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.65')) {
+            $message = new \Omeka\Stdlib\Message(
+                $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+                'Common', '3.4.65'
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        }
+    }
 
     public function postInstall(): void
     {
         $messenger = $this->getServiceLocator()->get('ControllerPluginManager')->get('messenger');
-        $message = new \Omeka\Stdlib\Message(
+        $message = new PsrMessage(
             'Fill the snippet in the main settings.' // @translate
         );
         $messenger->addNotice($message);
-        $message = new \Omeka\Stdlib\Message(
-            'To get statistics about keywords used by visitors in search engines, see %1$sMatomo/Piwik help%2$s.', // @translate
-            '<a href="https://matomo.org/faq/reports/analyse-search-keywords-reports/" target="_blank" rel="noopener">',
-            '</a>'
+        $message = new PsrMessage(
+            'To get statistics about keywords used by visitors in search engines, see {link}Matomo/Piwik help{link_end}.', // @translate
+            [
+                'link' => '<a href="https://matomo.org/faq/reports/analyse-search-keywords-reports/" target="_blank" rel="noopener">',
+                'link_end' => '</a>',
+            ]
         );
         $message->setEscapeHtml(false);
         $messenger->addNotice($message);

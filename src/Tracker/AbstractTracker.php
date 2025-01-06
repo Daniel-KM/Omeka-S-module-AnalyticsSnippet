@@ -99,7 +99,6 @@ abstract class AbstractTracker implements TrackerInterface
             $this->trackError($url, $type, $event);
             return;
         }
-
         $content = substr_replace($content, $inlineScript, $endTag, 0);
         $response->setContent($content);
     }

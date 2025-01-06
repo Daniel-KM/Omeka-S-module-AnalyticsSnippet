@@ -2,7 +2,7 @@
 
 namespace AnalyticsSnippet\Form;
 
-use AnalyticsSnippet\Form\Element as AnalyticsSnippetElement;
+use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Fieldset;
 
@@ -53,7 +53,7 @@ console.log("Analytics Snippet ready for admin!");
             ])
             ->add([
                 'name' => 'analyticssnippet_position',
-                'type' => AnalyticsSnippetElement\OptionalRadio::class,
+                'type' => CommonElement\OptionalRadio::class,
                 'options' => [
                     'element_group' => 'analytics',
                     'label' => 'Position', // @translate
