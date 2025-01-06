@@ -26,10 +26,19 @@ account on each search engine. See [Matomo help for more information].
 Installation
 ------------
 
-Uncompress files and rename module folder `AnalyticsSnippet`. Then install it
-like any other Omeka module and follow the config instructions.
+See general end user documentation for [installing a module].
 
-See general end user documentation for [Installing a module].
+This module requires the module [Common], that should be installed first.
+
+* From the zip
+
+Download the last release [AnalyticsSnippet.zip] from the list of releases,
+and uncompress it in the `modules` directory.
+
+* From the source and for development
+
+If the module was installed from the source, rename the name of the folder of
+the module to `AnalyticsSnippet`.
 
 
 Usage
@@ -93,7 +102,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2023 (see [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2017-2025 (see [Daniel-KM] on GitLab)
 
 
 [Analytics Snippet]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet
@@ -105,7 +114,9 @@ Copyright
 [Google Analytics]: https://www.google.com/analytics
 [Heap Analytics]: http://heapanalytics.com
 [Analytics Snippet Matomo/Piwik]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippetPiwik
-[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[Common]: https://gitlab.com/Daniel-KM/Omeka-S-module-Common
+[AnalyticsSnippet.zip]: https://github.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet/releases
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-AnalyticsSnippet/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
