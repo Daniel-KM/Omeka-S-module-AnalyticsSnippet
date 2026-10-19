@@ -14,7 +14,11 @@ class FakeLogger
 
     public function err($message, $extra = []): void
     {
-        $this->errors[] = (string) $message;
+        $replace = [];
+        foreach ($extra as $key => $value) {
+            $replace['{' . $key . '}'] = (string) $value;
+        }
+        $this->errors[] = strtr((string) $message, $replace);
     }
 
     public function errors(): array
