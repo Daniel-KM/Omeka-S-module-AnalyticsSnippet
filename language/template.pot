@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-13 00:00+0000\n"
+"POT-Creation-Date: 2026-10-19 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/scripts/upgrade.php:32 Module.php:47
+#: data/scripts/upgrade.php:32 Module.php:60
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
@@ -30,21 +30,28 @@ msgstr ""
 msgid "A new option allows to append the snippet to head or to body."
 msgstr ""
 
-#: data/scripts/upgrade.php:46 Module.php:62
+#: data/scripts/upgrade.php:46 Module.php:75
 msgid ""
 "To get statistics about keywords used by visitors in search engines, see "
 "{link}Matomo/Piwik help{link_end}."
 msgstr ""
 
-#: Module.php:58
+#: data/scripts/upgrade.php:62
+msgid ""
+"The ip sent by the server side trackers (Matomo with a token, Google) is now "
+"resolved behind the trusted reverse proxies, else the trackers receive the "
+"ip of the proxy for all the visitors, and a level of privacy can be applied. "
+"Check the new settings."
+msgstr ""
+
+#: Module.php:71
 msgid "Fill the snippet in the main settings."
 msgstr ""
 
 #: src/Tracker/AbstractTracker.php:113
-#, php-format
 msgid ""
-"Error in content \"%s\" from url %s (referrer: %s; user agent: %s; user #%d; "
-"ip %s)."
+"Error in content \"{type}\" from url {url} (referrer: {referrer}; user "
+"agent: {user_agent}; user #{user_id}; ip {ip})."
 msgstr ""
 
 #: src/Form/SiteSettingsFieldset.php:11 src/Form/SettingsFieldset.php:11
@@ -78,4 +85,48 @@ msgstr ""
 
 #: src/Form/SettingsFieldset.php:43
 msgid "Code to append to admin pages"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:75
+msgid "Trusted reverse proxies for the trackers"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:76
+msgid ""
+"Ips or cidr ranges (space or comma separated) of the reverse proxies in "
+"front of the server (Traefik, Nginx, Varnish…). The headers X-Forwarded-For "
+"and X-Real-IP are read only when the direct peer matches this list, so the "
+"trackers receive the ip of the visitor and not the one of the proxy. Empty "
+"means no proxy."
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:88
+msgid "Privacy of the ip sent to the trackers (server side tracking)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:89
+msgid ""
+"Apply to the trackers that send the visits from the server, like Matomo with "
+"a token or Google. The masked parts are set to zero. The tracker may "
+"anonymize the ips too."
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:91
+msgid "Clear ip"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:92
+msgid "Partial ip (first 3 parts)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:93
+msgid "Partial ip (first 2 parts)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:94
+msgid "Partial ip (first part)"
+msgstr ""
+
+#: src/Form/SettingsFieldset.php:95
+msgid "Anonymous (no ip)"
 msgstr ""

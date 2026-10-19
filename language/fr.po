@@ -1,20 +1,19 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Content-Transfer-Encoding: 8bit\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language: fr\n"
-"Language-Team: \n"
-"Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
-"MIME-Version: 1.0\n"
-"PO-Revision-Date: 2026-07-13 00:00+0000\n"
-"POT-Creation-Date: 2026-07-13 00:00+0000\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-19 00:00+0000\n"
+"PO-Revision-Date: 2026-10-19 00:00+0000\n"
+"Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/scripts/upgrade.php:32
-#: Module.php:47
+#: data/scripts/upgrade.php:32 Module.php:60
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
@@ -25,29 +24,47 @@ msgstr "Pré-requis absent. Impossible de mettre à jour."
 
 #: data/scripts/upgrade.php:42
 msgid "A new option allows to append the snippet to head or to body."
-msgstr "Une nouvelle option permet d’ajouter le fragment en <head> ou en <body>."
+msgstr ""
+"Une nouvelle option permet d’ajouter le fragment en <head> ou en <body>."
 
-#: data/scripts/upgrade.php:46
-#: Module.php:62
-msgid "To get statistics about keywords used by visitors in search engines, see {link}Matomo/Piwik help{link_end}."
-msgstr "Pour obtenir des statistiques sur les mots-clés par les visiteurs dans les moteurs de recherche, voir {link}l’aide Matomo/Piwik{link_end}."
+#: data/scripts/upgrade.php:46 Module.php:75
+msgid ""
+"To get statistics about keywords used by visitors in search engines, see "
+"{link}Matomo/Piwik help{link_end}."
+msgstr ""
+"Pour obtenir des statistiques sur les mots-clés par les visiteurs dans les "
+"moteurs de recherche, voir {link}l’aide Matomo/Piwik{link_end}."
 
-#: Module.php:58
+#: data/scripts/upgrade.php:62
+msgid ""
+"The ip sent by the server side trackers (Matomo with a token, Google) is now "
+"resolved behind the trusted reverse proxies, else the trackers receive the "
+"ip of the proxy for all the visitors, and a level of privacy can be applied. "
+"Check the new settings."
+msgstr ""
+"L’ip envoyée par les traceurs côté serveur (Matomo avec un jeton, Google) "
+"est désormais résolue derrière les proxys inverses de confiance, sinon les "
+"traceurs reçoivent l’ip du proxy pour tous les visiteurs, et un niveau de "
+"confidentialité peut être appliqué. Vérifiez les nouveaux réglages."
+
+#: Module.php:71
 msgid "Fill the snippet in the main settings."
 msgstr "Remplir le fragment dans les paramètres généraux."
 
 #: src/Tracker/AbstractTracker.php:113
-#, php-format
-msgid "Error in content \"%s\" from url %s (referrer: %s; user agent: %s; user #%d; ip %s)."
-msgstr "Erreur dans le contenu \"%s\" depuis l’url %s (référent : %s ; agent utilisateur : %s ; utilisateur #%d ; ip %s)."
+msgid ""
+"Error in content \"{type}\" from url {url} (referrer: {referrer}; user "
+"agent: {user_agent}; user #{user_id}; ip {ip})."
+msgstr ""
+"Erreur dans le contenu \"{type}\" depuis l’url {url} (référent : "
+"{referrer} ; agent utilisateur : {user_agent} ; utilisateur #{user_id} ; ip "
+"{ip})."
 
-#: src/Form/SiteSettingsFieldset.php:11
-#: src/Form/SettingsFieldset.php:11
+#: src/Form/SiteSettingsFieldset.php:11 src/Form/SettingsFieldset.php:11
 msgid "Analytics Snippet"
 msgstr "Analytics Snippet"
 
-#: src/Form/SiteSettingsFieldset.php:14
-#: src/Form/SettingsFieldset.php:14
+#: src/Form/SiteSettingsFieldset.php:14 src/Form/SettingsFieldset.php:14
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -55,26 +72,78 @@ msgstr "Analytics"
 msgid "Code to append to public pages"
 msgstr "Cote à ajouter aux pages publiques"
 
-#: src/Form/SiteSettingsFieldset.php:28
-#: src/Form/SettingsFieldset.php:28
+#: src/Form/SiteSettingsFieldset.php:28 src/Form/SettingsFieldset.php:28
 #: src/Form/SettingsFieldset.php:44
 msgid "Don’t forget to add the tags <script> and </script> for javascript."
-msgstr "Ne pas oublier d’ajouter les balises <script> et </script> pour le javascript."
+msgstr ""
+"Ne pas oublier d’ajouter les balises <script> et </script> pour le "
+"javascript."
 
-#: src/Form/SiteSettingsFieldset.php:45
-#: src/Form/SettingsFieldset.php:61
+#: src/Form/SiteSettingsFieldset.php:45 src/Form/SettingsFieldset.php:61
 msgid "Before \"</head>\" (recommended)"
 msgstr "Avant \"</head>\" (recommandé)"
 
-#: src/Form/SiteSettingsFieldset.php:46
-#: src/Form/SettingsFieldset.php:62
+#: src/Form/SiteSettingsFieldset.php:46 src/Form/SettingsFieldset.php:62
 msgid "Before \"</body>\""
 msgstr "Avant \"</body>\""
 
 #: src/Form/SettingsFieldset.php:27
 msgid "Code to append to all public pages (overridable in site settings)"
-msgstr "Code à ajouter aux pages publiques (modifiable dans les paramètres du site)"
+msgstr ""
+"Code à ajouter aux pages publiques (modifiable dans les paramètres du site)"
 
 #: src/Form/SettingsFieldset.php:43
 msgid "Code to append to admin pages"
 msgstr "Code à ajouter aux pages admin"
+
+#: src/Form/SettingsFieldset.php:75
+msgid "Trusted reverse proxies for the trackers"
+msgstr "Proxys inverses de confiance pour les traceurs"
+
+#: src/Form/SettingsFieldset.php:76
+msgid ""
+"Ips or cidr ranges (space or comma separated) of the reverse proxies in "
+"front of the server (Traefik, Nginx, Varnish…). The headers X-Forwarded-For "
+"and X-Real-IP are read only when the direct peer matches this list, so the "
+"trackers receive the ip of the visitor and not the one of the proxy. Empty "
+"means no proxy."
+msgstr ""
+"Ip ou plages cidr (séparées par des espaces ou des virgules) des proxys "
+"inverses placés devant le serveur (Traefik, Nginx, Varnish…). Les en-têtes X-"
+"Forwarded-For et X-Real-IP ne sont lus que si le pair direct figure dans "
+"cette liste : les traceurs reçoivent alors l’ip du visiteur et non celle du "
+"proxy. Vide : aucun proxy."
+
+#: src/Form/SettingsFieldset.php:88
+msgid "Privacy of the ip sent to the trackers (server side tracking)"
+msgstr "Confidentialité de l’ip envoyée aux traceurs (suivi côté serveur)"
+
+#: src/Form/SettingsFieldset.php:89
+msgid ""
+"Apply to the trackers that send the visits from the server, like Matomo with "
+"a token or Google. The masked parts are set to zero. The tracker may "
+"anonymize the ips too."
+msgstr ""
+"S’applique aux traceurs qui envoient les visites depuis le serveur, comme "
+"Matomo avec un jeton ou Google. Les parties masquées sont mises à zéro. Le "
+"traceur peut aussi anonymiser les ip."
+
+#: src/Form/SettingsFieldset.php:91
+msgid "Clear ip"
+msgstr "Ip en clair"
+
+#: src/Form/SettingsFieldset.php:92
+msgid "Partial ip (first 3 parts)"
+msgstr "Ip partielle (3 premières parties)"
+
+#: src/Form/SettingsFieldset.php:93
+msgid "Partial ip (first 2 parts)"
+msgstr "Ip partielle (2 premières parties)"
+
+#: src/Form/SettingsFieldset.php:94
+msgid "Partial ip (first part)"
+msgstr "Ip partielle (première partie)"
+
+#: src/Form/SettingsFieldset.php:95
+msgid "Anonymous (no ip)"
+msgstr "Anonyme (sans ip)"
