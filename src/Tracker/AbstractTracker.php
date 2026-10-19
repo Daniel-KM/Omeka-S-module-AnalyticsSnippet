@@ -2,8 +2,8 @@
 
 namespace AnalyticsSnippet\Tracker;
 
+use AnalyticsSnippet\Stdlib\ClientIp;
 use Laminas\EventManager\Event;
-use Laminas\Http\PhpEnvironment\RemoteAddress;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Api\Exception\NotFoundException;
 use Omeka\Stdlib\Message;
@@ -131,13 +131,15 @@ abstract class AbstractTracker implements TrackerInterface
      */
     protected function getClientIp()
     {
-        $ip = (new RemoteAddress())->getIpAddress();
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)
-            || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)
-        ) {
-            return $ip;
-        }
-        return '::';
+        // The ip is resolved behind the trusted proxies, then the privacy is
+        // applied, so all the trackers send the same ip.
+        $settings = $this->services->get('Omeka\Settings');
+        $clientIp = new ClientIp((string) $settings->get('analyticssnippet_trusted_proxies', ''));
+        $ip = ClientIp::privacy(
+            $clientIp->resolve($_SERVER),
+            (string) $settings->get('analyticssnippet_ip_privacy', 'clear')
+        );
+        return $ip === '' ? '::' : $ip;
     }
 
     /**

@@ -25,6 +25,11 @@ return [
             'analyticssnippet_inline_admin' => '',
             // Position is "body_end" or "head_end" (recommended).
             'analyticssnippet_position' => 'head_end',
+            // Ips or cidr ranges of the reverse proxies in front of the server.
+            'analyticssnippet_trusted_proxies' => '',
+            // Privacy of the ip sent to the trackers: "clear", "partial_3",
+            // "partial_2", "partial_1" or "anonymous".
+            'analyticssnippet_ip_privacy' => 'clear',
         ],
         'site_settings' => [
             'analyticssnippet_inline_public' => '',

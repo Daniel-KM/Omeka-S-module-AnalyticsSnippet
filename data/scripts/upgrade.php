@@ -52,3 +52,14 @@ if (version_compare($oldVersion, '3.3.3.2', '<')) {
     $message->setEscapeHtml(false);
     $messenger->addNotice($message);
 }
+
+if (version_compare($oldVersion, '3.4.7', '<')) {
+    // Reuse the trusted proxies of the module Analytics, if any.
+    $trusted = (string) $settings->get('analytics_trusted_proxies', '');
+    $settings->set('analyticssnippet_trusted_proxies', $trusted);
+    $settings->set('analyticssnippet_ip_privacy', 'clear');
+    $message = new PsrMessage(
+        'The ip sent by the server side trackers (Matomo with a token, Google) is now resolved behind the trusted reverse proxies, else the trackers receive the ip of the proxy for all the visitors, and a level of privacy can be applied. Check the new settings.' // @translate
+    );
+    $messenger->addWarning($message);
+}
