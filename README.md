@@ -62,6 +62,37 @@ most of the themes.
 To get keywords used by visitors in search engine, enable it via an account in
 each search engine. See [Matomo help for more information].
 
+For trackers that send the visits from the server (Matomo with a token, Google),
+two main settings manage the ip of the visitor:
+
+- trusted proxies: ips or cidr ranges (space or comma separated) of the reverse
+  proxies in front of the server (Traefik, Nginx, Varnish…). The headers
+  `X-Forwarded-For` and `X-Real-IP` are read only when the direct peer matches
+  this list, else the trackers receive the ip of the proxy for all the visitors.
+- privacy of the ip: clear, partial (first 3, 2 or 1 parts kept, the other ones
+  set to zero) or anonymous (no ip).
+
+Some routes may be excluded from tracking, for example a technical page of a
+module, via the key `excluded_routes` of the config. Other modules can append
+their own routes:
+
+```php
+return [
+    'analyticssnippet' => [
+        'excluded_routes' => [
+            'site/my-module-ping',
+        ],
+    ],
+];
+```
+
+
+TODO
+----
+
+- [ ] Send a pseudonymous visitor id to the server side trackers with omeka secret key (daily hmac).
+- [ ] Apply the same pseudonymization to the user id, currently sent in clear.
+
 
 Warning
 -------
