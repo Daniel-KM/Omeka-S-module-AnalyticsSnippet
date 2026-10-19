@@ -38,5 +38,8 @@ return [
         'trackers' => [
             'default' => Tracker\InlineScript::class,
         ],
+        // Routes that are never tracked, for example a technical page of a
+        // module. Other modules can append their own routes.
+        'excluded_routes' => [],
     ],
 ];

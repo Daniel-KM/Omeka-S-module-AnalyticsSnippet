@@ -97,6 +97,13 @@ class Module extends AbstractModule
         }
         $processed = true;
 
+        $services = $this->getServiceLocator();
+        $routeMatch = $services->get('Application')->getMvcEvent()->getRouteMatch();
+        $excludedRoutes = $services->get('Config')['analyticssnippet']['excluded_routes'] ?? [];
+        if ($routeMatch && in_array($routeMatch->getMatchedRouteName(), $excludedRoutes, true)) {
+            return;
+        }
+
         $model = $viewEvent->getParam('model');
         if (is_object($model) && $model instanceof JsonModel) {
             $this->trackCall('json', $viewEvent);
