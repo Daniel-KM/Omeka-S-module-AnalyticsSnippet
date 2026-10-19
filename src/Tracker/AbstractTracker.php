@@ -6,7 +6,6 @@ use AnalyticsSnippet\Stdlib\ClientIp;
 use Laminas\EventManager\Event;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Omeka\Api\Exception\NotFoundException;
-use Omeka\Stdlib\Message;
 
 abstract class AbstractTracker implements TrackerInterface
 {
@@ -110,8 +109,17 @@ abstract class AbstractTracker implements TrackerInterface
     protected function trackError($url, $type, Event $event): void
     {
         $logger = $this->services->get('Omeka\Logger');
-        $logger->err(new Message('Error in content "%s" from url %s (referrer: %s; user agent: %s; user #%d; ip %s).', // @translate
-            $type, $url, $this->getUrlReferrer(), $this->getUserAgent(), $this->getUserId(), $this->getClientIp()));
+        $logger->err(
+            'Error in content "{type}" from url {url} (referrer: {referrer}; user agent: {user_agent}; user #{user_id}; ip {ip}).', // @translate
+            [
+                'type' => $type,
+                'url' => $url,
+                'referrer' => $this->getUrlReferrer(),
+                'user_agent' => $this->getUserAgent(),
+                'user_id' => $this->getUserId(),
+                'ip' => $this->getClientIp(),
+            ]
+        );
     }
 
     /**
