@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 00:00+0000\n"
-"PO-Revision-Date: 2026-10-19 00:00+0000\n"
+"POT-Creation-Date: 2026-11-09 00:00+0000\n"
+"PO-Revision-Date: 2026-11-09 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Pour obtenir des statistiques sur les mots-clés par les visiteurs dans les "
 "moteurs de recherche, voir {link}l’aide Matomo/Piwik{link_end}."
 
-#: data/scripts/upgrade.php:62
+#: data/scripts/upgrade.php:65
 msgid ""
 "The ip sent by the server side trackers (Matomo with a token, Google) is now "
 "resolved behind the trusted reverse proxies, else the trackers receive the "
@@ -46,6 +46,18 @@ msgstr ""
 "est désormais résolue derrière les proxys inverses de confiance, sinon les "
 "traceurs reçoivent l’ip du proxy pour tous les visiteurs, et un niveau de "
 "confidentialité peut être appliqué. Vérifiez les nouveaux réglages."
+
+#: data/scripts/upgrade.php:82
+#, php-format
+msgid ""
+"The trusted reverse proxies are now managed in the security section of the "
+"main settings and apply to all modules, including the ones that grant rights "
+"or lock out by ip. Check that each one is a reverse proxy of the server: %s."
+msgstr ""
+"Les proxys inverses de confiance sont désormais gérés dans la section "
+"sécurité des paramètres généraux et s’appliquent à tous les modules, y "
+"compris ceux qui accordent des droits ou bloquent par ip. Vérifiez que "
+"chacun est bien un proxy inverse du serveur : %s."
 
 #: Module.php:71
 msgid "Fill the snippet in the main settings."
@@ -97,28 +109,10 @@ msgid "Code to append to admin pages"
 msgstr "Code à ajouter aux pages admin"
 
 #: src/Form/SettingsFieldset.php:75
-msgid "Trusted reverse proxies for the trackers"
-msgstr "Proxys inverses de confiance pour les traceurs"
-
-#: src/Form/SettingsFieldset.php:76
-msgid ""
-"Ips or cidr ranges (space or comma separated) of the reverse proxies in "
-"front of the server (Traefik, Nginx, Varnish…). The headers X-Forwarded-For "
-"and X-Real-IP are read only when the direct peer matches this list, so the "
-"trackers receive the ip of the visitor and not the one of the proxy. Empty "
-"means no proxy."
-msgstr ""
-"Ip ou plages cidr (séparées par des espaces ou des virgules) des proxys "
-"inverses placés devant le serveur (Traefik, Nginx, Varnish…). Les en-têtes X-"
-"Forwarded-For et X-Real-IP ne sont lus que si le pair direct figure dans "
-"cette liste : les traceurs reçoivent alors l’ip du visiteur et non celle du "
-"proxy. Vide : aucun proxy."
-
-#: src/Form/SettingsFieldset.php:88
 msgid "Privacy of the ip sent to the trackers (server side tracking)"
 msgstr "Confidentialité de l’ip envoyée aux traceurs (suivi côté serveur)"
 
-#: src/Form/SettingsFieldset.php:89
+#: src/Form/SettingsFieldset.php:76
 msgid ""
 "Apply to the trackers that send the visits from the server, like Matomo with "
 "a token or Google. The masked parts are set to zero. The tracker may "
@@ -128,22 +122,38 @@ msgstr ""
 "Matomo avec un jeton ou Google. Les parties masquées sont mises à zéro. Le "
 "traceur peut aussi anonymiser les ip."
 
-#: src/Form/SettingsFieldset.php:91
+#: src/Form/SettingsFieldset.php:78
 msgid "Clear ip"
 msgstr "Ip en clair"
 
-#: src/Form/SettingsFieldset.php:92
+#: src/Form/SettingsFieldset.php:79
 msgid "Partial ip (first 3 parts)"
 msgstr "Ip partielle (3 premières parties)"
 
-#: src/Form/SettingsFieldset.php:93
+#: src/Form/SettingsFieldset.php:80
 msgid "Partial ip (first 2 parts)"
 msgstr "Ip partielle (2 premières parties)"
 
-#: src/Form/SettingsFieldset.php:94
+#: src/Form/SettingsFieldset.php:81
 msgid "Partial ip (first part)"
 msgstr "Ip partielle (première partie)"
 
-#: src/Form/SettingsFieldset.php:95
+#: src/Form/SettingsFieldset.php:82
 msgid "Anonymous (no ip)"
 msgstr "Anonyme (sans ip)"
+
+#~ msgid "Trusted reverse proxies for the trackers"
+#~ msgstr "Proxys inverses de confiance pour les traceurs"
+
+#~ msgid ""
+#~ "Ips or cidr ranges (space or comma separated) of the reverse proxies in "
+#~ "front of the server (Traefik, Nginx, Varnish…). The headers X-Forwarded-"
+#~ "For and X-Real-IP are read only when the direct peer matches this list, "
+#~ "so the trackers receive the ip of the visitor and not the one of the "
+#~ "proxy. Empty means no proxy."
+#~ msgstr ""
+#~ "Ip ou plages cidr (séparées par des espaces ou des virgules) des proxys "
+#~ "inverses placés devant le serveur (Traefik, Nginx, Varnish…). Les en-"
+#~ "têtes X-Forwarded-For et X-Real-IP ne sont lus que si le pair direct "
+#~ "figure dans cette liste : les traceurs reçoivent alors l’ip du visiteur "
+#~ "et non celle du proxy. Vide : aucun proxy."
