@@ -142,11 +142,17 @@ abstract class AbstractTracker implements TrackerInterface
         // The ip is resolved behind the trusted proxies, then the privacy is
         // applied, so all the trackers send the same ip. The trusted proxies of
         // the module take precedence over the main ones.
+        // The service is missing while the module Common is not upgraded.
         $settings = $this->services->get('Omeka\Settings');
-        $clientIp = $this->services->get('Omeka\ClientIp');
-        $trusted = $clientIp::normalizeTrustedProxies($settings->get('analyticssnippet_trusted_proxies', ''));
+        if ($this->services->has('Omeka\ClientIp')) {
+            $clientIp = $this->services->get('Omeka\ClientIp');
+            $trusted = $clientIp::normalizeTrustedProxies($settings->get('analyticssnippet_trusted_proxies', ''));
+            $ip = $clientIp->getIp(null, $trusted ?: null);
+        } else {
+            $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+        }
         $ip = ClientIp::privacy(
-            $clientIp->getIp(null, $trusted ?: null),
+            $ip,
             (string) $settings->get('analyticssnippet_ip_privacy', 'clear')
         );
         return $ip === '' ? '::' : $ip;
