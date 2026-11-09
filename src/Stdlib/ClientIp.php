@@ -59,17 +59,22 @@ class ClientIp
             return $remote;
         }
 
-        // The leftmost ip is the client, the next ones are proxies.
+        // Each proxy appends the ip of its peer, so the client is the first ip
+        // from the right that is not a trusted proxy. The left part may be
+        // forged by the client.
         $chain = array_filter(array_map('trim', explode(',', (string) ($server['HTTP_X_FORWARDED_FOR'] ?? ''))));
-        foreach ($chain as $candidate) {
-            if (filter_var($candidate, FILTER_VALIDATE_IP) && !$this->isTrusted($candidate)) {
-                return $candidate;
+        if ($chain) {
+            $client = $remote;
+            foreach (array_reverse($chain) as $candidate) {
+                if (!filter_var($candidate, FILTER_VALIDATE_IP)) {
+                    break;
+                }
+                $client = $candidate;
+                if (!$this->isTrusted($candidate)) {
+                    break;
+                }
             }
-        }
-        foreach ($chain as $candidate) {
-            if (filter_var($candidate, FILTER_VALIDATE_IP)) {
-                return $candidate;
-            }
+            return $client;
         }
         $real = trim((string) ($server['HTTP_X_REAL_IP'] ?? ''));
         return filter_var($real, FILTER_VALIDATE_IP) ? $real : $remote;
