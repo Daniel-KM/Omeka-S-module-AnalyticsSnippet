@@ -68,19 +68,6 @@ console.log("Analytics Snippet ready for admin!");
                 ],
             ])
             ->add([
-                'name' => 'analyticssnippet_trusted_proxies',
-                'type' => Element\Text::class,
-                'options' => [
-                    'element_group' => 'analytics',
-                    'label' => 'Trusted reverse proxies for the trackers', // @translate
-                    'info' => 'Ips or cidr ranges (space or comma separated) of the reverse proxies in front of the server (Traefik, Nginx, Varnish…). The headers X-Forwarded-For and X-Real-IP are read only when the direct peer matches this list, so the trackers receive the ip of the visitor and not the one of the proxy. Empty: use the trusted reverse proxies of the main settings.', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'analyticssnippet_trusted_proxies',
-                    'placeholder' => '172.18.0.0/16',
-                ],
-            ])
-            ->add([
                 'name' => 'analyticssnippet_ip_privacy',
                 'type' => CommonElement\OptionalRadio::class,
                 'options' => [
