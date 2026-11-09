@@ -54,6 +54,7 @@ abstract class TrackerTestCase extends TestCase
         $services->setService('Omeka\Settings\Site', new FakeSettings($options['site_settings']));
         $services->setService('Omeka\ApiManager', new FakeApiManager((bool) $options['site_exists']));
         $services->setService('Omeka\Logger', $this->logger);
+        $services->setService('Omeka\ClientIp', class_exists(\Omeka\Stdlib\ClientIp::class) ? new \Omeka\Stdlib\ClientIp() : new \Common\Stdlib\ClientIp());
         $services->setService('ViewHelperManager', $viewHelpers);
         $services->setService('Application', new FakeApplication($mvcEvent));
 

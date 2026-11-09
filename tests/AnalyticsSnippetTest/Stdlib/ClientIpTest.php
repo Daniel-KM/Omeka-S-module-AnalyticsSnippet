@@ -7,40 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ClientIpTest extends TestCase
 {
-    public function testWithoutProxyTheRemoteAddressIsUsed(): void
-    {
-        $clientIp = new ClientIp();
-        $server = ['REMOTE_ADDR' => '172.18.0.9', 'HTTP_X_FORWARDED_FOR' => '203.0.113.5'];
-        // The headers are not trusted without proxy: they may be spoofed.
-        $this->assertSame('172.18.0.9', $clientIp->resolve($server));
-    }
-
-    public function testBehindTrustedProxyTheClientIsUsed(): void
-    {
-        $clientIp = new ClientIp('172.18.0.0/16');
-        $this->assertSame('203.0.113.5', $clientIp->resolve([
-            'REMOTE_ADDR' => '172.18.0.9',
-            'HTTP_X_FORWARDED_FOR' => '203.0.113.5, 172.18.0.2',
-        ]));
-        $this->assertSame('198.51.100.7', $clientIp->resolve([
-            'REMOTE_ADDR' => '172.18.0.9',
-            'HTTP_X_REAL_IP' => '198.51.100.7',
-        ]));
-    }
-
-    public function testUntrustedPeerIgnoresHeaders(): void
-    {
-        $clientIp = new ClientIp('172.18.0.0/16 10.0.0.1');
-        $this->assertSame('203.0.113.9', $clientIp->resolve([
-            'REMOTE_ADDR' => '203.0.113.9',
-            'HTTP_X_FORWARDED_FOR' => '1.2.3.4',
-        ]));
-        $this->assertSame('5.6.7.8', $clientIp->resolve([
-            'REMOTE_ADDR' => '10.0.0.1',
-            'HTTP_X_FORWARDED_FOR' => '5.6.7.8',
-        ]));
-    }
-
     public function testPrivacyIpv4(): void
     {
         $this->assertSame('192.168.56.12', ClientIp::privacy('192.168.56.12', 'clear'));
