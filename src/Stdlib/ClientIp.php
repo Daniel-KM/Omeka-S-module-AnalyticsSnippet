@@ -3,83 +3,13 @@
 namespace AnalyticsSnippet\Stdlib;
 
 /**
- * Get the ip of the visitor sent to the trackers.
+ * Apply a level of privacy to the ip of the visitor sent to the trackers.
  *
- * Behind a reverse proxy, the ip of the client is read from the headers
- * X-Forwarded-For and X-Real-IP only when the direct peer is a trusted proxy,
- * else the headers may be spoofed. Then the level of privacy is applied.
+ * The ip itself is resolved by the service Omeka\ClientIp, that manages the
+ * reverse proxies.
  */
 class ClientIp
 {
-    /**
-     * @var string[]
-     */
-    protected $trustedIps = [];
-
-    /**
-     * @var array List of trusted ranges: packed network, prefix, length.
-     */
-    protected $trustedRanges = [];
-
-    /**
-     * @param string $trustedProxies Ips or cidr ranges separated with spaces,
-     *   commas or semicolons.
-     */
-    public function __construct(string $trustedProxies = '')
-    {
-        $tokens = array_filter(array_map('trim', preg_split('/[\s,;]+/', $trustedProxies) ?: []));
-        foreach ($tokens as $token) {
-            if (strpos($token, '/') !== false) {
-                [$network, $prefix] = explode('/', $token, 2);
-                $packed = @inet_pton($network);
-                if ($packed === false) {
-                    continue;
-                }
-                $prefix = (int) $prefix;
-                if ($prefix < 0 || $prefix > strlen($packed) * 8) {
-                    continue;
-                }
-                $this->trustedRanges[] = [$packed, $prefix, strlen($packed)];
-            } elseif (filter_var($token, FILTER_VALIDATE_IP)) {
-                $this->trustedIps[] = $token;
-            }
-        }
-    }
-
-    /**
-     * Resolve the ip of the client from the server params.
-     */
-    public function resolve(array $server): string
-    {
-        $remote = (string) ($server['REMOTE_ADDR'] ?? '');
-        if (!filter_var($remote, FILTER_VALIDATE_IP)) {
-            return '';
-        }
-        if (!$this->isTrusted($remote)) {
-            return $remote;
-        }
-
-        // Each proxy appends the ip of its peer, so the client is the first ip
-        // from the right that is not a trusted proxy. The left part may be
-        // forged by the client.
-        $chain = array_filter(array_map('trim', explode(',', (string) ($server['HTTP_X_FORWARDED_FOR'] ?? ''))));
-        if ($chain) {
-            $client = $remote;
-            foreach (array_reverse($chain) as $candidate) {
-                if (!filter_var($candidate, FILTER_VALIDATE_IP)) {
-                    break;
-                }
-                $client = $candidate;
-                if (!$this->isTrusted($candidate)) {
-                    break;
-                }
-            }
-            return $client;
-        }
-        $real = trim((string) ($server['HTTP_X_REAL_IP'] ?? ''));
-        return filter_var($real, FILTER_VALIDATE_IP) ? $real : $remote;
-    }
-
     /**
      * Apply a level of privacy to an ip.
      *
@@ -109,34 +39,5 @@ class ClientIp
             default:
                 return strlen($packed) === 4 ? '0.0.0.0' : '::';
         }
-    }
-
-    protected function isTrusted(string $ip): bool
-    {
-        if (in_array($ip, $this->trustedIps, true)) {
-            return true;
-        }
-        $packed = @inet_pton($ip);
-        if ($packed === false) {
-            return false;
-        }
-        foreach ($this->trustedRanges as [$network, $prefix, $length]) {
-            if (strlen($packed) !== $length) {
-                continue;
-            }
-            $bytes = intdiv($prefix, 8);
-            if (substr($packed, 0, $bytes) !== substr($network, 0, $bytes)) {
-                continue;
-            }
-            $bits = $prefix % 8;
-            if ($bits === 0) {
-                return true;
-            }
-            $mask = (0xFF << (8 - $bits)) & 0xFF;
-            if ((ord($packed[$bytes]) & $mask) === (ord($network[$bytes]) & $mask)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
