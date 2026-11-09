@@ -65,10 +65,10 @@ each search engine. See [Matomo help for more information].
 For trackers that send the visits from the server (Matomo with a token, Google),
 two main settings manage the ip of the visitor:
 
-- trusted proxies: ips or cidr ranges (space or comma separated) of the reverse
-  proxies in front of the server (Traefik, Nginx, Varnish…). The headers
-  `X-Forwarded-For` and `X-Real-IP` are read only when the direct peer matches
-  this list, else the trackers receive the ip of the proxy for all the visitors.
+- trusted proxies: they are set in the main settings (section Security). The
+  headers `X-Forwarded-For` and `X-Real-IP` are read only when the direct peer
+  is a trusted proxy, else the trackers receive the ip of the proxy for all the
+  visitors.
 - privacy of the ip: clear, partial (first 3, 2 or 1 parts kept, the other ones
   set to zero) or anonymous (no ip).
 
