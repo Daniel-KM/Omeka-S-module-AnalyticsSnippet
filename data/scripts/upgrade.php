@@ -57,9 +57,30 @@ if (version_compare($oldVersion, '3.4.7', '<')) {
     // Reuse the trusted proxies of the module Analytics, if any.
     $trusted = (string) $settings->get('analytics_trusted_proxies', '');
     $settings->set('analyticssnippet_trusted_proxies', $trusted);
-    $settings->set('analyticssnippet_ip_privacy', 'clear');
+    // Keep the value set during a previous partial upgrade.
+    if ($settings->get('analyticssnippet_ip_privacy') === null) {
+        $settings->set('analyticssnippet_ip_privacy', 'clear');
+    }
     $message = new PsrMessage(
         'The ip sent by the server side trackers (Matomo with a token, Google) is now resolved behind the trusted reverse proxies, else the trackers receive the ip of the proxy for all the visitors, and a level of privacy can be applied. Check the new settings.' // @translate
     );
     $messenger->addWarning($message);
+}
+
+// The trusted proxies are managed in the main settings (module Common): merge
+// the list of the module into it.
+$moduleTrustedProxies = $settings->get('analyticssnippet_trusted_proxies');
+if ($moduleTrustedProxies !== null) {
+    $trustedProxies = array_values(array_unique(array_filter(array_merge(
+        (array) ($settings->get('trusted_proxies') ?: []),
+        is_array($moduleTrustedProxies) ? $moduleTrustedProxies : preg_split('/[\s,;]+/', (string) $moduleTrustedProxies)
+    ))));
+    $settings->set('trusted_proxies', $trustedProxies);
+    $settings->delete('analyticssnippet_trusted_proxies');
+    if ($trustedProxies) {
+        $messenger->addWarning(new \Omeka\Stdlib\Message(
+            'The trusted reverse proxies are now managed in the security section of the main settings and apply to all modules, including the ones that grant rights or lock out by ip. Check that each one is a reverse proxy of the server: %s.', // @translate
+            implode(', ', $trustedProxies)
+        ));
+    }
 }
